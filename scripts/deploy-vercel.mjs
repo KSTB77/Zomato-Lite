@@ -61,6 +61,9 @@ const deployRes = await fetch(API + "/v13/deployments?teamId=" + TEAM, {
     name: "zomato-lite",
     project: PROJECT,
     target: "production",
+    // Re-assign our chosen "main URL" to this new deployment on every deploy,
+    // so it always points at whatever is newest.
+    alias: ["zomato-lite-kstbambhore.vercel.app"],
     files: manifest,
   }),
 });
