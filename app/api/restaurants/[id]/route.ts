@@ -5,12 +5,14 @@
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 
-function toReview(row: { id: number; rating: number; comment: string; created_at: string }) {
+// The driver returns rows typed as "Record<string, unknown>" -- an object whose
+// keys we cannot trust until we coerce them. This function IS that trust boundary.
+function toReview(row: Record<string, unknown>) {
   return {
-    id: row.id,
-    rating: row.rating,
-    comment: row.comment,
-    createdAt: new Date(row.created_at).toISOString(),
+    id: Number(row.id),
+    rating: Number(row.rating),
+    comment: String(row.comment),
+    createdAt: new Date(String(row.created_at)).toISOString(),
   };
 }
 

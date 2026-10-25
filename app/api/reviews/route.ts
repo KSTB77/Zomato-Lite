@@ -23,7 +23,12 @@ export async function POST(request: Request) {
   };
 
   // Check 1: rating is a whole number from 1 to 5.
-  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+  if (
+    typeof rating !== "number" ||
+    !Number.isInteger(rating) ||
+    rating < 1 ||
+    rating > 5
+  ) {
     return NextResponse.json(
       { error: "Rating must be a whole number between 1 and 5." },
       { status: 400 }
@@ -40,7 +45,7 @@ export async function POST(request: Request) {
 
   // Check 3: the restaurant the review points at must actually exist.
   // (Also guards against restaurantId being a non-number, which would break the lookup.)
-  if (!Number.isInteger(restaurantId)) {
+  if (typeof restaurantId !== "number" || !Number.isInteger(restaurantId)) {
     return NextResponse.json(
       { error: "restaurantId must be a number." },
       { status: 400 }
